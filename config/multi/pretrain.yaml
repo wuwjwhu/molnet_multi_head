@@ -16,15 +16,16 @@ lr: 0.00001
 num_epoch: 150
 log_interval: 2
 split_type: scaffold
-seed: 1
+seed: 42
 
 dataset_name: pretrain
-dataset_path: datasets/random_1/filled_training_set.csv # sync with seed
-indicator_path: datasets/random_1/indicators.csv # sync with seed
+dataset_path: datasets/random_42/filled_training_set.csv # sync with seed
+indicator_path: datasets/random_42/indicators.csv # sync with seed
 task_name: [bace, bbbp, clintox, sider, tox21, toxcast, esol, freesolv, lipo]
 task_output_dims: [1, 1, 2, 27, 12, 617, 1, 1, 1]
 # dataset_performance: [0.858, 0.889, 0.965, 0.840, 0.823, 0.815, 1.302, 2.03, 0.8] # sync with seed 0
-dataset_performance: [0.831, 0.905, 0.955, 0.840, 0.822, 0.822, 1.293, 2.215, 0.745] # sync with seed 1
+# dataset_performance: [0.831, 0.905, 0.955, 0.840, 0.822, 0.822, 1.293, 2.215, 0.745] # sync with seed 1
+dataset_performance: [0.821, 0.898, 0.946, 0.838, 0.821, 0.806, 1.276, 2.316, 0.824] # sync with seed 42
 num_tasks: 9 # for molnet
 num_classification_tasks: 6 # for molnet
 

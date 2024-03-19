@@ -117,7 +117,7 @@ def main(config, yaml_path):
     model_st = config["model_name"]
 
 
-    dataset = load_data(config)
+    dataset = load_data(config['dataset_path'])
 
     # 数据集划分为训练集、验证集和测试集 # todo 改scaffold
     if config['split_type'] == 'random':
@@ -259,6 +259,33 @@ def main(config, yaml_path):
         P_test, G_test, title=work_dir + "/testset")
     with open(result_file_name, "a") as f:
         f.write("\n on test set")
+        f.write("\n rmse:"+str(ret_test[0]))
+        f.write("\n mse:"+str(ret_test[1]))
+        f.write("\n pearson:"+str(ret_test[2]))
+        f.write("\n spearman:"+str(ret_test[3]))
+        f.write("\n rankingloss:"+str(ret_test[4])+"\n")
+    
+    # test the best model on the clean test set    
+    cleanset = load_data(config['cleanset_path'])
+    cleanset_loader = DataLoader(cleanset, batch_size=config['batch_size']['test'], shuffle=False, drop_last=False)
+    G_test, P_test = predicting(best_model, device, cleanset_loader, "clean_test", config)
+    
+    valid_label_mask_test = (G_test != float('inf'))  # Same for the test set
+    G_test = G_test[valid_label_mask_test]
+    P_test = P_test[valid_label_mask_test]
+    
+    ret_test = [
+        rmse(G_test, P_test),
+        mse(G_test, P_test),
+        pearson(G_test, P_test),
+        spearman(G_test, P_test),
+        rankingLossFunc(torch.tensor(G_test), torch.tensor(
+            P_test), torch.ones_like(torch.tensor(P_test))).item()
+    ]
+    draw_sort_pred_gt(
+        P_test, G_test, title=work_dir + "/cleanset")
+    with open(result_file_name, "a") as f:
+        f.write("\n on clean test set")
         f.write("\n rmse:"+str(ret_test[0]))
         f.write("\n mse:"+str(ret_test[1]))
         f.write("\n pearson:"+str(ret_test[2]))

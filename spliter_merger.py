@@ -3,7 +3,7 @@ from sklearn.model_selection import train_test_split
 import os
 
 # Random 
-seed = 1
+seed = 42
 
 # Placeholder for the file names
 file_names = ['datasets/bace.csv', 'datasets/bbbp.csv', 'datasets/clintox.csv', 'datasets/sider.csv', 'datasets/tox21.csv',

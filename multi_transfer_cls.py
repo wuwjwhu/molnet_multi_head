@@ -258,8 +258,7 @@ def main(config, yaml_path):
     # binary_preds_test = (P_test > 0.5).astype(int)
     
     # accuracy_test = accuracy_score(valid_labels_test, binary_preds_test)
-    # precision_test = precision_score(valid_labels_test, binary_preds_test, average='macro')
-    # recall_test = recall_score(valid_labels_test, binary_preds_test, average='macro')
+    # precision_test = precision_score(valid_labels_test, binary_preds_test, average='macro') # recall_test = recall_score(valid_labels_test, binary_preds_test, average='macro')
     # f1_test = f1_score(valid_labels_test, binary_preds_test, average='macro')
     # roc_auc_test = roc_auc_score(valid_labels_test, P_test, average='macro')
     

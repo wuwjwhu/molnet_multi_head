@@ -177,8 +177,8 @@ def main(config, yaml_path):
         binary_preds_test = (P_test > 0.5).astype(int)
 
         # Create a mask for valid labels
-        valid_label_mask = (G != -1)  # Replace -1 with np.nan if NaN is used for 'void' labels
-        valid_label_mask_test = (G_test != -1)  # Same for the test set
+        valid_label_mask = (G != float('inf'))  # Replace float('inf') with np.nan if NaN is used for 'void' labels
+        valid_label_mask_test = (G_test != float('inf'))  # Same for the test set
 
         # Apply the mask to labels and predictions
         valid_labels = G[valid_label_mask]
@@ -266,6 +266,32 @@ def main(config, yaml_path):
     draw_sort_pred_gt(P_test, valid_labels_test, title=work_dir + "/testset")
     with open(result_file_name, "a") as f:
         f.write("\n on test set")
+        f.write("\n accuracy:"+str(accuracy_test))
+        f.write("\n precision:"+str(precision_test))
+        f.write("\n recall:"+str(recall_test))
+        f.write("\n f1:"+str(f1_test))
+        f.write("\n roc_auc:"+str(roc_auc_test)+"\n")
+    
+    # test the best model on the clean testset 
+    cleanset = load_data(config['cleanset_path'])
+    cleanset_loader = DataLoader(cleanset, batch_size=config['batch_size']['test'], shuffle=False, drop_last=False)
+    G_test, P_test = predicting(best_model, device, cleanset_loader, "clean_test", config)
+    
+    valid_label_mask_test = (G_test != float('inf'))  # Same for the test set
+    valid_labels_test = G_test[valid_label_mask_test]
+    valid_preds_test = P_test[valid_label_mask_test]
+    P_test = torch.sigmoid(torch.tensor(valid_preds_test)).numpy()
+    binary_preds_test = (P_test > 0.5).astype(int)
+    
+    accuracy_test = accuracy_score(valid_labels_test, binary_preds_test)
+    precision_test = precision_score(valid_labels_test, binary_preds_test, average='macro')
+    recall_test = recall_score(valid_labels_test, binary_preds_test, average='macro')
+    f1_test = f1_score(valid_labels_test, binary_preds_test, average='macro')
+    roc_auc_test = roc_auc_score(valid_labels_test, P_test, average='macro')
+    
+    draw_sort_pred_gt(P_test, valid_labels_test, title=work_dir + "/cleanset")
+    with open(result_file_name, "a") as f:
+        f.write("\n on clean test set")
         f.write("\n accuracy:"+str(accuracy_test))
         f.write("\n precision:"+str(precision_test))
         f.write("\n recall:"+str(recall_test))

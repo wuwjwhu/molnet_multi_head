@@ -1,6 +1,6 @@
 import pandas as pd
 
-seed = 1
+seed = 42
 
 dir_prefix = f'datasets/random_{seed}/'
 # Replace these file names with your actual file paths

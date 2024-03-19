@@ -3,7 +3,7 @@ model_name: GraphDRP
 
 marker: multi_transfer
 
-cuda_name: cuda:1
+cuda_name: cuda:2
 
 # work_dir: GAT_GCN
 # work_dir: GDSCv2_zs
@@ -21,7 +21,7 @@ seed: 0
 selected_task: 9
 transfer_task_dim: 1
 dataset_name: hiv
-pretrained_drug_module_path:
+pretrained_drug_module_path: /home/nas/wwj/molnet_multi_head/exp/seed_0/multi/pretrain__20240315141322/GraphDRP_epoch_150_drug_module.pt
 dataset_path: datasets/transfer/hiv.csv
 # dataset_path: datasets/raw_data/molnet/merged_training_set.csv
 # dataset_with_predictions: datasets/raw_data/molnet/filled_training_set/hiv.csv
@@ -125,3 +125,4 @@ model:
     fc_3_dim: 1
     dropout: 0.5
     fusion_mode: concat
+
