@@ -20,6 +20,7 @@ seed: 42
 dataset_name: freesolv
 dataset_path: datasets/random_42/finetune_set/freesolv.csv
 testset_path: datasets/random_42/test_set/freesolv.csv
+cleanset_path: datasets/random_42/test_set/freesolv_clean.csv
 predictset_path: datasets/random_42/merged_training_set.csv
 to_fill_training_set_path: datasets/random_42/to_fill_training_set/freesolv.csv
 

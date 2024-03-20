@@ -239,54 +239,82 @@ def main(config, yaml_path):
         
     # The following is not for transfer task
     
-    # # test the best model on test set
-    # best_model = GraphDRP(config)
-    # # best_model.load_state_dict(torch.load('/home/nas/wwj/molnet_multi_head/exp/SINGLE/cls_bace__20240312165917/GraphDRP.pt', map_location=torch.device(device)), strict=True)
-    # best_model.load_state_dict(torch.load(model_file_name, map_location=torch.device(device)), strict=True)
-    # best_model.to(device)
-    # testset = load_data(config['testset_path'])
-    # testset_loader = DataLoader(testset, batch_size=config['batch_size']['test'], shuffle=False, drop_last=False)
-    # G_test, P_test = predicting(best_model, device, testset_loader, "test", config)
+    # load the best model
+    best_model = GraphDRP(config)
+    # best_model.load_state_dict(torch.load('/home/nas/wwj/molnet_multi_head/exp/SINGLE/cls_bace__20240312165917/GraphDRP.pt', map_location=torch.device(device)), strict=True)
+    best_model.load_state_dict(torch.load(model_file_name, map_location=torch.device(device)), strict=True)
+    best_model.to(device)
     
-    # valid_label_mask_test = (G_test != float('inf'))  # Same for the test set
-    # valid_labels_test = G_test[valid_label_mask_test]
-    # valid_preds_test = P_test[valid_label_mask_test]
-    # P_test = torch.sigmoid(torch.tensor(valid_preds_test)).numpy()
-    # binary_preds_test = (P_test > 0.5).astype(int)
     
-    # accuracy_test = accuracy_score(valid_labels_test, binary_preds_test)
-    # precision_test = precision_score(valid_labels_test, binary_preds_test, average='macro')
-    # recall_test = recall_score(valid_labels_test, binary_preds_test, average='macro')
-    # f1_test = f1_score(valid_labels_test, binary_preds_test, average='macro')
-    # roc_auc_test = roc_auc_score(valid_labels_test, P_test, average='macro')
+    # test the best model on test set
+    testset = load_data(config['testset_path'])
+    testset_loader = DataLoader(testset, batch_size=config['batch_size']['test'], shuffle=False, drop_last=False)
+    G_test, P_test = predicting(best_model, device, testset_loader, "test", config)
     
-    # draw_sort_pred_gt(P_test, valid_labels_test, title=work_dir + "/testset")
-    # with open(result_file_name, "a") as f:
-    #     f.write("\n on test set")
-    #     f.write("\n accuracy:"+str(accuracy_test))
-    #     f.write("\n precision:"+str(precision_test))
-    #     f.write("\n recall:"+str(recall_test))
-    #     f.write("\n f1:"+str(f1_test))
-    #     f.write("\n roc_auc:"+str(roc_auc_test)+"\n")
+    valid_label_mask_test = (G_test != float('inf'))  # Same for the test set
+    valid_labels_test = G_test[valid_label_mask_test]
+    valid_preds_test = P_test[valid_label_mask_test]
+    P_test = torch.sigmoid(torch.tensor(valid_preds_test)).numpy()
+    binary_preds_test = (P_test > 0.5).astype(int)
+    
+    accuracy_test = accuracy_score(valid_labels_test, binary_preds_test)
+    precision_test = precision_score(valid_labels_test, binary_preds_test, average='macro')
+    recall_test = recall_score(valid_labels_test, binary_preds_test, average='macro')
+    f1_test = f1_score(valid_labels_test, binary_preds_test, average='macro')
+    roc_auc_test = roc_auc_score(valid_labels_test, P_test, average='macro')
+    
+    draw_sort_pred_gt(P_test, valid_labels_test, title=work_dir + "/testset")
+    with open(result_file_name, "a") as f:
+        f.write("\n on test set")
+        f.write("\n accuracy:"+str(accuracy_test))
+        f.write("\n precision:"+str(precision_test))
+        f.write("\n recall:"+str(recall_test))
+        f.write("\n f1:"+str(f1_test))
+        f.write("\n roc_auc:"+str(roc_auc_test)+"\n")
+
         
+    # test the best model on clean test set
+    testset = load_data(config['cleanset_path'])
+    testset_loader = DataLoader(testset, batch_size=config['batch_size']['test'], shuffle=False, drop_last=False)
+    G_test, P_test = predicting(best_model, device, testset_loader, "test", config)
+    
+    valid_label_mask_test = (G_test != float('inf'))  # Same for the test set
+    valid_labels_test = G_test[valid_label_mask_test]
+    valid_preds_test = P_test[valid_label_mask_test]
+    P_test = torch.sigmoid(torch.tensor(valid_preds_test)).numpy()
+    binary_preds_test = (P_test > 0.5).astype(int)
+    
+    accuracy_test = accuracy_score(valid_labels_test, binary_preds_test)
+    precision_test = precision_score(valid_labels_test, binary_preds_test, average='macro')
+    recall_test = recall_score(valid_labels_test, binary_preds_test, average='macro')
+    f1_test = f1_score(valid_labels_test, binary_preds_test, average='macro')
+    roc_auc_test = roc_auc_score(valid_labels_test, P_test, average='macro')
+    
+    draw_sort_pred_gt(P_test, valid_labels_test, title=work_dir + "/cleanset")
+    with open(result_file_name, "a") as f:
+        f.write("\n on clean test set")
+        f.write("\n accuracy:"+str(accuracy_test))
+        f.write("\n precision:"+str(precision_test))
+        f.write("\n recall:"+str(recall_test))
+        f.write("\n f1:"+str(f1_test))
+        f.write("\n roc_auc:"+str(roc_auc_test)+"\n")
         
-        
-    # # make predictions on merged training set and save to to_fill_training_set
-    # # pdb.set_trace()
-    # predictset = load_data(config['predictset_path'])
-    # predict_loader = DataLoader(predictset, batch_size=config['batch_size']['test'], shuffle=False, drop_last=False)
-    # dataset_df = pd.read_csv(config['dataset_path'])
-    # N = len(dataset_df.columns) - 1
-    # target_df = pd.read_csv(config['predictset_path'])
-    # _, logits_test = predicting(best_model, device, predict_loader, "test", config)
-    # logits_test = (logits_test > 0.5).astype(int)
-    # if len(logits_test) % N == 0:
-    #     reshaped_predictions = logits_test.reshape(-1, N)
-    # else:
-    #     raise ValueError("The number of predictions does not match")
-    # predictions_df = pd.DataFrame(reshaped_predictions, columns=dataset_df.columns[1:])
-    # combined_df = pd.concat([target_df['smiles'], predictions_df], axis=1)
-    # combined_df.to_csv(config['to_fill_training_set_path'], index=False)    
+    # make predictions on merged training set and save to to_fill_training_set
+    # pdb.set_trace()
+    predictset = load_data(config['predictset_path'])
+    predict_loader = DataLoader(predictset, batch_size=config['batch_size']['test'], shuffle=False, drop_last=False)
+    dataset_df = pd.read_csv(config['dataset_path'])
+    N = len(dataset_df.columns) - 1
+    target_df = pd.read_csv(config['predictset_path'])
+    _, logits_test = predicting(best_model, device, predict_loader, "test", config)
+    logits_test = (logits_test > 0.5).astype(int)
+    if len(logits_test) % N == 0:
+        reshaped_predictions = logits_test.reshape(-1, N)
+    else:
+        raise ValueError("The number of predictions does not match")
+    predictions_df = pd.DataFrame(reshaped_predictions, columns=dataset_df.columns[1:])
+    combined_df = pd.concat([target_df['smiles'], predictions_df], axis=1)
+    combined_df.to_csv(config['to_fill_training_set_path'], index=False)    
 
     
         

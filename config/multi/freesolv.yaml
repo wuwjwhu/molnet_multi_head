@@ -16,15 +16,16 @@ lr: 0.001
 num_epoch: 150
 log_interval: 2
 split_type: scaffold
-seed: 0
+seed: 42
 
 selected_task: 7
 dataset_name: freesolv
-pretrained_model_path: /home/nas/wwj/molnet_multi_head/exp/seed_0/multi/pretrain__20240315141322/GraphDRP_epoch_5_best_model_regression_task_freesolv.pt # 0
+# pretrained_model_path: /home/nas/wwj/molnet_multi_head/exp/seed_0/multi/pretrain__20240315141322/GraphDRP_epoch_5_best_model_regression_task_freesolv.pt # 0
 # pretrained_model_path: /home/nas/wwj/molnet_multi_head/exp/seed_1/multi/pretrain__20240315144711/GraphDRP_epoch_46_best_model_regression_task_freesolv.pt
-dataset_path: datasets/random_0/finetune_set/freesolv.csv
-testset_path: datasets/random_0/test_set/freesolv.csv
-cleanset_path: datasets/random_0/test_set/freesolv_clean.csv
+pretrained_model_path: /home/nas/wwj/molnet_multi_head/exp/seed_42/multi/pretrain__20240318222154/GraphDRP_epoch_46_best_model_regression_task_freesolv.pt
+dataset_path: datasets/random_42/finetune_set/freesolv.csv
+testset_path: datasets/random_42/test_set/freesolv.csv
+cleanset_path: datasets/random_42/test_set/freesolv_clean.csv
 # dataset_path: datasets/raw_data/molnet/merged_training_set.csv
 # dataset_with_predictions: datasets/raw_data/molnet/filled_training_set/freesolv.csv
 # dataset_testing: datasets/raw_data/molnet/test_set/freesolv.csv

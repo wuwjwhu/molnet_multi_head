@@ -3,7 +3,7 @@ model_name: GraphDRP
 
 marker: single
 
-cuda_name: cuda:2
+cuda_name: cuda:3
 
 work_dir: cls_hiv
 batch_size:
@@ -14,7 +14,7 @@ lr: 0.001
 num_epoch: 150
 log_interval: 2
 split_type: scaffold
-seed: 0
+seed: 1
 
 dataset_name: hiv
 dataset_path: datasets/transfer/hiv.csv

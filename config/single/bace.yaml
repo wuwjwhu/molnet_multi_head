@@ -19,6 +19,7 @@ seed: 42
 dataset_name: bace
 dataset_path: datasets/random_42/finetune_set/bace.csv
 testset_path: datasets/random_42/test_set/bace.csv
+cleanset_path: datasets/random_42/test_set/bace_clean.csv
 predictset_path: datasets/random_42/merged_training_set.csv
 to_fill_training_set_path: datasets/random_42/to_fill_training_set/bace.csv
 

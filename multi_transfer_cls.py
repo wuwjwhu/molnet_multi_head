@@ -177,8 +177,8 @@ def main(config, yaml_path):
         binary_preds_test = (P_test > 0.5).astype(int)
 
         # Create a mask for valid labels
-        valid_label_mask = (G != -1)  # Replace -1 with np.nan if NaN is used for 'void' labels
-        valid_label_mask_test = (G_test != -1)  # Same for the test set
+        valid_label_mask = (G != float('inf'))  # Replace float('inf') with np.nan if NaN is used for 'void' labels
+        valid_label_mask_test = (G_test != float('inf'))  # Same for the test set
 
         # Apply the mask to labels and predictions
         valid_labels = G[valid_label_mask]
