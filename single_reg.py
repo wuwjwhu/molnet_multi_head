@@ -238,31 +238,31 @@ def main(config, yaml_path):
     best_model.to(device)
 
     # test the best model on test set
-    # testset = load_data(config['testset_path'])
-    # testset_loader = DataLoader(testset, batch_size=config['batch_size']['test'], shuffle=False, drop_last=False)
-    # G_test, P_test = predicting(best_model, device, testset_loader, "test", config)
+    testset = load_data(config['testset_path'])
+    testset_loader = DataLoader(testset, batch_size=config['batch_size']['test'], shuffle=False, drop_last=False)
+    G_test, P_test = predicting(best_model, device, testset_loader, "test", config)
     
-    # valid_label_mask_test = (G_test != float('inf'))  # Same for the test set
-    # G_test = G_test[valid_label_mask_test]
-    # P_test = P_test[valid_label_mask_test]
+    valid_label_mask_test = (G_test != float('inf'))  # Same for the test set
+    G_test = G_test[valid_label_mask_test]
+    P_test = P_test[valid_label_mask_test]
     
-    # ret_test = [
-    #     rmse(G_test, P_test),
-    #     mse(G_test, P_test),
-    #     pearson(G_test, P_test),
-    #     spearman(G_test, P_test),
-    #     rankingLossFunc(torch.tensor(G_test), torch.tensor(
-    #         P_test), torch.ones_like(torch.tensor(P_test))).item()
-    # ]
-    # draw_sort_pred_gt(
-    #     P_test, G_test, title=work_dir + "/testset")
-    # with open(result_file_name, "a") as f:
-    #     f.write("\n on test set")
-    #     f.write("\n rmse:"+str(ret_test[0]))
-    #     f.write("\n mse:"+str(ret_test[1]))
-    #     f.write("\n pearson:"+str(ret_test[2]))
-    #     f.write("\n spearman:"+str(ret_test[3]))
-    #     f.write("\n rankingloss:"+str(ret_test[4])+"\n")
+    ret_test = [
+        rmse(G_test, P_test),
+        mse(G_test, P_test),
+        pearson(G_test, P_test),
+        spearman(G_test, P_test),
+        rankingLossFunc(torch.tensor(G_test), torch.tensor(
+            P_test), torch.ones_like(torch.tensor(P_test))).item()
+    ]
+    draw_sort_pred_gt(
+        P_test, G_test, title=work_dir + "/testset")
+    with open(result_file_name, "a") as f:
+        f.write("\n on test set")
+        f.write("\n rmse:"+str(ret_test[0]))
+        f.write("\n mse:"+str(ret_test[1]))
+        f.write("\n pearson:"+str(ret_test[2]))
+        f.write("\n spearman:"+str(ret_test[3]))
+        f.write("\n rankingloss:"+str(ret_test[4])+"\n")
         
     # test the best model on clean test set
     testset = load_data(config['cleanset_path'])
@@ -292,21 +292,20 @@ def main(config, yaml_path):
         f.write("\n rankingloss:"+str(ret_test[4])+"\n")        
         
     # make predictions on merged training set and save to to_fill_training_set
-    # pdb.set_trace()
-    # predictset = load_data(config['predictset_path'])
-    # predict_loader = DataLoader(predictset, batch_size=config['batch_size']['test'], shuffle=False, drop_last=False)
+    predictset = load_data(config['predictset_path'])
+    predict_loader = DataLoader(predictset, batch_size=config['batch_size']['test'], shuffle=False, drop_last=False)
     
-    # dataset_df = pd.read_csv(config['dataset_path'])
-    # N = len(dataset_df.columns) - 1
-    # target_df = pd.read_csv(config['predictset_path'])
-    # _, logits_test = predicting(best_model, device, predict_loader, "test", config)
-    # if len(logits_test) % N == 0:
-    #     reshaped_predictions = logits_test.reshape(-1, N)
-    # else:
-    #     raise ValueError("The number of predictions does not match")
-    # predictions_df = pd.DataFrame(reshaped_predictions, columns=dataset_df.columns[1:])
-    # combined_df = pd.concat([target_df['smiles'], predictions_df], axis=1)
-    # combined_df.to_csv(config['to_fill_training_set_path'], index=False)    
+    dataset_df = pd.read_csv(config['dataset_path'])
+    N = len(dataset_df.columns) - 1
+    target_df = pd.read_csv(config['predictset_path'])
+    _, logits_test = predicting(best_model, device, predict_loader, "test", config)
+    if len(logits_test) % N == 0:
+        reshaped_predictions = logits_test.reshape(-1, N)
+    else:
+        raise ValueError("The number of predictions does not match")
+    predictions_df = pd.DataFrame(reshaped_predictions, columns=dataset_df.columns[1:])
+    combined_df = pd.concat([target_df['smiles'], predictions_df], axis=1)
+    combined_df.to_csv(config['to_fill_training_set_path'], index=False)    
 
 
 def seed_torch(seed=42):

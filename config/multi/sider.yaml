@@ -3,7 +3,7 @@ model_name: GraphDRP
 
 marker: multi_finetune
 
-cuda_name: cuda:2
+cuda_name: cuda:3
 
 # work_dir: GAT_GCN
 # work_dir: GDSCv2_zs

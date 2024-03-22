@@ -3,7 +3,7 @@ model_name: GraphDRP
 
 marker: single
 
-cuda_name: cuda:2
+cuda_name: cuda:3
 
 work_dir: cls_sider
 batch_size:
@@ -14,14 +14,14 @@ lr: 0.001
 num_epoch: 150
 log_interval: 2
 split_type: scaffold
-seed: 42
+seed: 1
 
 dataset_name: sider
-dataset_path: datasets/random_42/finetune_set/sider.csv
-testset_path: datasets/random_42/test_set/sider.csv
-cleanset_path: datasets/random_42/test_set/sider_clean.csv
-predictset_path: datasets/random_42/merged_training_set.csv
-to_fill_training_set_path: datasets/random_42/to_fill_training_set/sider.csv
+dataset_path: datasets/random_1/finetune_set/sider.csv
+testset_path: datasets/random_1/test_set/sider.csv
+cleanset_path: datasets/random_1/test_set/sider_clean.csv
+predictset_path: datasets/random_1/merged_training_set.csv
+to_fill_training_set_path: datasets/random_1/to_fill_training_set/sider.csv
 
 # dataset_with_predictions: datasets/raw_data/molnet/filled_training_set/sider.csv
 # dataset_testing: datasets/raw_data/molnet/test_set/sider.csv
