@@ -20,12 +20,12 @@ seed: 42
 
 selected_task: 5
 dataset_name: toxcast
-# pretrained_model_path: /home/nas/wwj/molnet_multi_head/exp/seed_0/multi/pretrain__20240315141322/GraphDRP_epoch_105_best_model_classification_task_toxcast.pt
-# pretrained_model_path: /home/nas/wwj/molnet_multi_head/exp/seed_1/multi/pretrain__20240315144711/GraphDRP_epoch_111_best_model_classification_task_toxcast.pt
-pretrained_model_path: /home/nas/wwj/molnet_multi_head/exp/seed_42/multi/pretrain__20240318222154/GraphDRP_epoch_122_best_model_classification_task_toxcast.pt
-dataset_path: datasets/random_42/finetune_set/toxcast.csv
-testset_path: datasets/random_42/test_set/toxcast.csv
-cleanset_path: datasets/random_42/test_set/toxcast_clean.csv
+# pretrained_model_path: /home/nas/wwj/molnet_multi_head/exp/scaffold_seed_0/multi_pretrain/pretrain__20240323115311/GraphDRP_epoch_133_best_model_classification_task_toxcast.pt
+# pretrained_model_path: /home/nas/wwj/molnet_multi_head/exp/scaffold_seed_1/multi_pretrain/pretrain__20240323114533/GraphDRP_epoch_150_best_model_classification_task_toxcast.pt
+pretrained_model_path: /home/nas/wwj/molnet_multi_head/exp/scaffold_seed_42/multi_pretrain/pretrain__20240323113209/GraphDRP_epoch_135_best_model_classification_task_toxcast.pt
+dataset_path: datasets/scaffold_42/finetune_set/toxcast.csv
+testset_path: datasets/scaffold_42/test_set/toxcast.csv
+cleanset_path: datasets/scaffold_42/test_set/toxcast_clean.csv
 # dataset_path: datasets/raw_data/molnet/merged_training_set.csv
 # dataset_with_predictions: datasets/raw_data/molnet/filled_training_set/toxcast.csv
 # dataset_testing: datasets/raw_data/molnet/test_set/toxcast.csv

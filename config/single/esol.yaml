@@ -14,14 +14,14 @@ lr: 0.001
 num_epoch: 150
 log_interval: 2
 split_type: scaffold
-seed: 1
+seed: 0
 
 dataset_name: esol
-dataset_path: datasets/random_1/finetune_set/esol.csv
-testset_path: datasets/random_1/test_set/esol.csv
-cleanset_path: datasets/random_1/test_set/esol_clean.csv
-predictset_path: datasets/random_1/merged_training_set.csv
-to_fill_training_set_path: datasets/random_1/to_fill_training_set/esol.csv
+dataset_path: datasets/scaffold_0/finetune_set/esol.csv
+testset_path: datasets/scaffold_0/test_set/esol.csv
+cleanset_path: datasets/scaffold_0/test_set/esol_clean.csv
+predictset_path: datasets/scaffold_0/merged_training_set.csv
+to_fill_training_set_path: datasets/scaffold_0/to_fill_training_set/esol.csv
 
 # dataset_with_predictions: datasets/raw_data/molnet/filled_training_set/esol.csv
 # dataset_testing: datasets/raw_data/molnet/test_set/esol.csv

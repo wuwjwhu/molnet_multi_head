@@ -16,16 +16,16 @@ lr: 0.001
 num_epoch: 150
 log_interval: 2
 split_type: scaffold
-seed: 42
+seed: 1
 
 selected_task: 1
 dataset_name: bbbp
-# pretrained_model_path: /home/nas/wwj/molnet_multi_head/exp/seed_0/multi/pretrain__20240315141322/GraphDRP_epoch_121_best_model_classification_task_bbbp.pt # 0
-# pretrained_model_path: /home/nas/wwj/molnet_multi_head/exp/seed_1/multi/pretrain__20240315144711/GraphDRP_epoch_4_best_model_classification_task_bbbp.pt
-pretrained_model_path: /home/nas/wwj/molnet_multi_head/exp/seed_42/multi/pretrain__20240318222154/GraphDRP_epoch_143_best_model_classification_task_bbbp.pt
-dataset_path: datasets/random_42/finetune_set/bbbp.csv
-testset_path: datasets/random_42/test_set/bbbp.csv
-cleanset_path: datasets/random_42/test_set/bbbp_clean.csv
+# pretrained_model_path: /home/nas/wwj/molnet_multi_head/exp/scaffold_seed_0/multi_pretrain/pretrain__20240323115311/GraphDRP_epoch_39_best_model_classification_task_bbbp.pt # 0
+pretrained_model_path: /home/nas/wwj/molnet_multi_head/exp/scaffold_seed_1/multi_pretrain/pretrain__20240323114533/GraphDRP_epoch_29_best_model_classification_task_bbbp.pt
+# pretrained_model_path: /home/nas/wwj/molnet_multi_head/exp/scaffold_seed_42/multi_pretrain/pretrain__20240323113209/GraphDRP_epoch_29_best_model_classification_task_bbbp.pt
+dataset_path: datasets/scaffold_1/finetune_set/bbbp.csv
+testset_path: datasets/scaffold_1/test_set/bbbp.csv
+cleanset_path: datasets/scaffold_1/test_set/bbbp_clean.csv
 # dataset_path: datasets/raw_data/molnet/merged_training_set.csv
 # dataset_with_predictions: datasets/raw_data/molnet/filled_training_set/bbbp.csv
 # dataset_testing: datasets/raw_data/molnet/test_set/bbbp.csv

@@ -166,9 +166,9 @@ def main(config, yaml_path):
     date_info = ("_" + dateStr()) if config["work_dir"] != "test" else ""
 
     date_info = ("_" + dateStr()) if config["work_dir"] != "test" else ""
-    work_dir = "./exp/seed_"+ str(config['seed']) + "/" + config['marker'] + "/" + work_dir + "_"  +  date_info
+    work_dir = "./exp/scaffold_seed_"+ str(config['seed']) + "/" + config['marker'] + "/" + work_dir + "_"  +  date_info
 
-    os.makedirs("./exp/seed_"+ str(config['seed']) + "/" + config['marker'], exist_ok=True)
+    os.makedirs("./exp/scaffold_seed_"+ str(config['seed']) + "/" + config['marker'], exist_ok=True)
     os.makedirs(work_dir, exist_ok=True)
 
     model_st = config["model_name"]

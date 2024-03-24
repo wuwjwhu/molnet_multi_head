@@ -1,8 +1,8 @@
 import pandas as pd
 
-seed = 42
+seed = 0
 
-dir_prefix = f'datasets/random_{seed}/'
+dir_prefix = f'datasets/scaffold_{seed}/'
 # Replace these file names with your actual file paths
 main_file = f'{dir_prefix}merged_training_set.csv'
 supplement_files = [f'{dir_prefix}to_fill_training_set/bace.csv', f'{dir_prefix}to_fill_training_set/bbbp.csv', f'{dir_prefix}to_fill_training_set/clintox.csv', f'{dir_prefix}to_fill_training_set/sider.csv', f'{dir_prefix}to_fill_training_set/tox21.csv',

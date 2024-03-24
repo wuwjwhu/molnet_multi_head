@@ -7,21 +7,21 @@ cuda_name: cuda:0
 
 work_dir: reg_freesolv
 batch_size:
-  train: 256
-  val: 256
-  test: 256
+  train: 128
+  val: 128
+  test: 128
 lr: 0.001
 num_epoch: 150
 log_interval: 2
 split_type: scaffold
-seed: 1
+seed: 0
 
 dataset_name: freesolv
-dataset_path: datasets/random_1/finetune_set/freesolv.csv
-testset_path: datasets/random_1/test_set/freesolv.csv
-cleanset_path: datasets/random_1/test_set/freesolv_clean.csv
-predictset_path: datasets/random_1/merged_training_set.csv
-to_fill_training_set_path: datasets/random_1/to_fill_training_set/freesolv.csv
+dataset_path: datasets/scaffold_0/finetune_set/freesolv.csv
+testset_path: datasets/scaffold_0/test_set/freesolv.csv
+cleanset_path: datasets/scaffold_0/test_set/freesolv_clean.csv
+predictset_path: datasets/scaffold_0/merged_training_set.csv
+to_fill_training_set_path: datasets/scaffold_0/to_fill_training_set/freesolv.csv
 
 # dataset_with_predictions: datasets/raw_data/molnet/filled_training_set/freesolv.csv
 # dataset_testing: datasets/raw_data/molnet/test_set/freesolv.csv
