@@ -9,7 +9,7 @@ import random
 import datetime
 from utils.util import *
 from utils.dataset_loader import load_data
-from models.model_single_cls import GraphDRP
+from models.model_single_cls import GraphMultiHead
 import argparse
 import torch
 from tqdm import tqdm
@@ -28,7 +28,6 @@ def train(model, device, train_loader, optimizer, epoch, log_interval, args):
     for batch_idx, data in enumerate(train_loader):
         data = data.to(device)
         optimizer.zero_grad()
-        # pdb.set_trace()
         pred, _ = model(data)
 
         # Adjusting the targets and predictions
@@ -88,7 +87,7 @@ def dateStr():
 
 def main(config, yaml_path):
 
-    model = GraphDRP(config)
+    model = GraphMultiHead(config)
     model.to(device)
 
 
@@ -240,8 +239,8 @@ def main(config, yaml_path):
     # The following is not for transfer task
     
     # load the best model
-    best_model = GraphDRP(config)
-    # best_model.load_state_dict(torch.load('/home/nas/wwj/molnet_multi_head/exp/SINGLE/cls_bace__20240312165917/GraphDRP.pt', map_location=torch.device(device)), strict=True)
+    best_model = GraphMultiHead(config)
+    # best_model.load_state_dict(torch.load('/home/nas/wwj/molnet_multi_head/exp/SINGLE/cls_bace__20240312165917/GraphMultiHead.pt', map_location=torch.device(device)), strict=True)
     best_model.load_state_dict(torch.load(model_file_name, map_location=torch.device(device)), strict=True)
     best_model.to(device)
     
@@ -300,7 +299,6 @@ def main(config, yaml_path):
         f.write("\n roc_auc:"+str(roc_auc_test)+"\n")
         
     # make predictions on merged training set and save to to_fill_training_set
-    # pdb.set_trace()
     predictset = load_data(config['predictset_path'])
     predict_loader = DataLoader(predictset, batch_size=config['batch_size']['test'], shuffle=False, drop_last=False)
     dataset_df = pd.read_csv(config['dataset_path'])

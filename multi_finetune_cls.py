@@ -11,8 +11,7 @@ import random
 import datetime
 from utils.util import *
 from utils.dataset_loader import load_data
-# from models.model_graphdrp import GraphDRP
-from models.model_multi import GraphDRP
+from models.model_multi import GraphMultiHead
 import argparse
 import torch
 from tqdm import tqdm
@@ -92,7 +91,7 @@ def dateStr():
 
 def main(config, yaml_path):
 
-    model = GraphDRP(config)
+    model = GraphMultiHead(config)
     model.load_state_dict(torch.load(config['pretrained_model_path'], map_location=torch.device(device)), strict=True)
     model.to(device)
 
@@ -243,8 +242,8 @@ def main(config, yaml_path):
         # draw_pearson(val_pearsons, pearson_fig_name)
 
     # test the best model on test set
-    best_model = GraphDRP(config)
-    # best_model.load_state_dict(torch.load('/home/nas/wwj/molnet_multi_head/exp/SINGLE/cls_bace__20240312165917/GraphDRP.pt', map_location=torch.device(device)), strict=True)
+    best_model = GraphMultiHead(config)
+    # best_model.load_state_dict(torch.load('/home/nas/wwj/molnet_multi_head/exp/SINGLE/cls_bace__20240312165917/GraphMultiHead.pt', map_location=torch.device(device)), strict=True)
     best_model.load_state_dict(torch.load(model_file_name, map_location=torch.device(device)), strict=True)
     best_model.to(device)
     testset = load_data(config['testset_path'])

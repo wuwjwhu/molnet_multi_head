@@ -1,9 +1,9 @@
 model_type: 0
-model_name: GraphDRP
+model_name: GraphMultiHead
 
 marker: multi_transfer
 
-cuda_name: cuda:1
+cuda_name: cuda:2
 
 # work_dir: GAT_GCN
 # work_dir: GDSCv2_zs
@@ -16,14 +16,17 @@ lr: 0.001
 num_epoch: 150
 log_interval: 2
 split_type: scaffold
-seed: 1
+seed: 0
 
 selected_task: 9
 transfer_task_dim: 2
 dataset_name: metstab
-# pretrained_drug_module_path: /home/nas/wwj/molnet_multi_head/exp/seed_0/multi/pretrain__20240315141322/GraphDRP_epoch_150_drug_module.pt
-pretrained_drug_module_path: /home/nas/wwj/molnet_multi_head/exp/seed_1/multi/pretrain__20240315144711/GraphDRP_epoch_150_drug_module.pt
-# pretrained_drug_module_path: /home/nas/wwj/molnet_multi_head/exp/seed_42/multi/pretrain__20240318222154/GraphDRP_epoch_150_drug_module.pt
+pretrained_drug_module_path: /home/nas/wwj/molnet_multi_head/exp/scaffold_seed_0/multi_pretrain/pretrain__20240323115311/GraphMultiHead_epoch_150_drug_module.pt
+# pretrained_drug_module_path: /home/nas/wwj/molnet_multi_head/exp/scaffold_seed_1/multi_pretrain/pretrain__20240323114533/GraphMultiHead_epoch_150_drug_module.pt
+# pretrained_drug_module_path: /home/nas/wwj/molnet_multi_head/exp/scaffold_seed_42/multi_pretrain/pretrain__20240323113209/GraphMultiHead_epoch_150_drug_module.pt
+# pretrained_drug_module_path: /home/nas/wwj/molnet_multi_head/exp/seed_0/multi/pretrain__20240315141322/GraphMultiHead_epoch_150_drug_module.pt
+# pretrained_drug_module_path: /home/nas/wwj/molnet_multi_head/exp/seed_1/multi/pretrain__20240315144711/GraphMultiHead_epoch_150_drug_module.pt
+# pretrained_drug_module_path: /home/nas/wwj/molnet_multi_head/exp/seed_42/multi/pretrain__20240318222154/GraphMultiHead_epoch_150_drug_module.pt
 dataset_path: datasets/transfer/metstab.csv
 # dataset_path: datasets/raw_data/molnet/merged_training_set.csv
 # dataset_with_predictions: datasets/raw_data/molnet/filled_training_set/hiv.csv
@@ -100,31 +103,4 @@ model:
     graph_pooling: max_mean
     dropout: 0.5
 
-  cell_module:
-    module_name: Conv1d
-    input_cell_feature_dim: 735
-    output_cell_feature_dim: 128
-    fc_1_dim: 128
-    layer_num: 3
-    layer_hyperparameter:
-      kernel_size:
-        - 8
-        - 8
-        - 8
-      maxpool1d:
-        - 3
-        - 3
-        - 3
-      cnn_channels:
-        - 32
-        - 64
-        - 128
-
-
-  fusion_module:
-    fc_1_dim: 1024
-    fc_2_dim: 128
-    fc_3_dim: 1
-    dropout: 0.5
-    fusion_mode: concat
 

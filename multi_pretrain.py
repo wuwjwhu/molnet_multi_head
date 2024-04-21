@@ -11,8 +11,7 @@ import random
 import datetime
 from utils.util import *
 from utils.dataset_with_indicator_loader import load_data
-# from models.model_graphdrp import GraphDRP
-from models.model_multi import GraphDRP
+from models.model_multi import GraphMultiHead
 import argparse
 import torch
 from tqdm import tqdm
@@ -72,7 +71,6 @@ def train(model, device, train_loader, optimizer, epoch, log_interval, config):
         data = data.to(device)
         optimizer.zero_grad()
         outputs = model(data)
-        # pdb.set_trace()
         # Assuming data.y is a list of label tensors, one for each task
         labels = data.y  
         indicators = data.indicator
@@ -81,14 +79,9 @@ def train(model, device, train_loader, optimizer, epoch, log_interval, config):
         total_loss = 0
         for i, (output, label, indicator) in enumerate(zip(outputs, labels, indicators)):
             if i < 6: # if task_type == 'classification':
-                # if i < 2:
-                #     continue
-                # if i == 2:
-                #     pdb.set_trace()
                 weight =  predicted_label_weight[i]
                 total_loss += classification_loss(output, label, indicator, weight)
             else: # elif task_type == 'regression':
-                # pdb.set_trace()
                 total_loss += regression_loss(output, label, indicator, weight)
 
         total_loss.backward()
@@ -149,7 +142,7 @@ def dateStr():
 
 def main(config, yaml_path):
 
-    model = GraphDRP(config)
+    model = GraphMultiHead(config)
 
     model.to(device)
 
@@ -232,16 +225,7 @@ def main(config, yaml_path):
         # Iterate over each task to calculate metrics separately, handling classification and regression differently
         for i, (logits, labels, logits_test, labels_test) in enumerate(zip(logits_list, G_list, logits_test_list, G_test_list)):
             # Classification metrics
-            # pdb.set_trace()
             if i < num_classification_tasks:
-                # if i == 5:
-                #     pdb.set_trace()
-                #     labels = np.array(labels).flatten()  # Assuming 'labels' is your array of labels
-                #     # Check the unique classes and their counts
-                #     unique_classes, counts = np.unique(labels, return_counts=True)
-                #     print("Classes:", unique_classes)
-                #     print("Counts:", counts)
-                #     # continue
                 probabilities = torch.sigmoid(torch.tensor(logits)).numpy().flatten()
                 roc_auc = roc_auc_score(np.array(labels).flatten(), probabilities, average='macro')
 
@@ -302,7 +286,7 @@ def main(config, yaml_path):
 
     # test the best model on test set
     # for i in range(config['num_tasks']):
-    #     best_model = GraphDRP(config)
+    #     best_model = GraphMultiHead(config)
     #     if i < num_classification_tasks:
     #         best_model.load_state_dict(torch.load(""))
     #         model.load(best_model_states['classification'][i])

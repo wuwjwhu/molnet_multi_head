@@ -11,7 +11,7 @@ import random
 import datetime
 from utils.util import *
 from utils.dataset_loader import load_data
-from models.model_single_reg import GraphDRP
+from models.model_single_reg import GraphMultiHead
 import argparse
 import torch
 from tqdm import tqdm
@@ -26,16 +26,12 @@ import pandas as pd
 def train(model, device, train_loader, optimizer, epoch, log_interval, args):
     print("Training on {} samples...".format(len(train_loader.dataset)))
     model.train()
-    # loss_fn = nn.MSELoss()
-    # DC_cross_entropy_loss = torch.nn.CrossEntropyLoss()
-    # T_cross_entropy_loss = torch.nn.CrossEntropyLoss()
+
     avg_loss = []
-    # pdb.set_trace()
     for batch_idx, data in enumerate(train_loader):
         data = data.to(device)
 
         optimizer.zero_grad()
-        # pdb.set_trace()
         pred, _ = model(data)
         
 
@@ -92,7 +88,7 @@ def main(config, yaml_path):
 
 
 
-    model = GraphDRP(config)
+    model = GraphMultiHead(config)
 
     model.to(device)
 
@@ -166,7 +162,6 @@ def main(config, yaml_path):
         G, P = predicting(model, device, val_loader, "val", config)
 
         G_test, P_test = predicting(model, device, test_loader, "test", config)
-        # pdb.set_trace()
         # Create a mask for valid labels
         valid_label_mask = (G != float('inf'))  # Replace -1 with np.nan if NaN is used for 'void' labels
         valid_label_mask_test = (G_test != float('inf'))  # Same for the test set
@@ -232,8 +227,8 @@ def main(config, yaml_path):
         draw_loss(train_losses, val_losses, loss_fig_name)
 
     # load the best model
-    best_model = GraphDRP(config)
-    # best_model.load_state_dict(torch.load('/home/nas/wwj/molnet_multi_head/exp/SINGLE/cls_bace__20240312165917/GraphDRP.pt', map_location=torch.device(device)), strict=True)
+    best_model = GraphMultiHead(config)
+    # best_model.load_state_dict(torch.load('/home/nas/wwj/molnet_multi_head/exp/SINGLE/cls_bace__20240312165917/GraphMultiHead.pt', map_location=torch.device(device)), strict=True)
     best_model.load_state_dict(torch.load(model_file_name, map_location=torch.device(device)), strict=True)
     best_model.to(device)
 
