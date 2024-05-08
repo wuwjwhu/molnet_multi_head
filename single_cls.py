@@ -312,6 +312,7 @@ def main(config, yaml_path):
         raise ValueError("The number of predictions does not match")
     predictions_df = pd.DataFrame(reshaped_predictions, columns=dataset_df.columns[1:])
     combined_df = pd.concat([target_df['smiles'], predictions_df], axis=1)
+    ensure_dir(config['to_fill_training_set_path'])
     combined_df.to_csv(config['to_fill_training_set_path'], index=False)    
 
     
@@ -346,6 +347,11 @@ def getConfig():
     with open(args.config, "r") as stream:
         config = yaml.safe_load(stream)
     return config, args.config
+
+def ensure_dir(file_path):
+    directory = os.path.dirname(file_path)
+    if not os.path.exists(directory):
+        os.makedirs(directory)
 
 
 def load_weight(pretrain_model, model, remainRaw=False):

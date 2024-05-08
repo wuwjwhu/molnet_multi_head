@@ -1,0 +1,81 @@
+model_type: 0
+model_name: GraphMultiHead
+
+marker: multi_pretrain
+
+cuda_name: cuda:2
+
+work_dir: pretrain
+batch_size:
+  train: 256
+  val: 256
+  test: 256
+lr: 0.00001
+num_epoch: 150
+log_interval: 2
+split_type: scaffold
+seed: 42
+
+dataset_name: pretrain
+dataset_path: datasets/seed_42/filled_training_set.csv # sync with seed
+indicator_path: datasets/seed_42/indicators.csv # sync with seed
+task_name: [bace, bbbp, clintox, sider, tox21, toxcast, esol, freesolv, lipo]
+task_output_dims: [1, 1, 2, 27, 12, 617, 1, 1, 1]
+dataset_performance: [0.813, 0.874, 0.978, 0.839, 0.795, 0.808, 1.357, 4.798, 0.77] # corresponding with seed 42
+num_tasks: 9 # for molnet
+num_classification_tasks: 6 # for molnet
+
+dataset_type:
+  scale: 1
+  select_type: zeroshot
+  val: 0.1
+  test: 0.1
+
+
+
+model:
+
+  drug_module:
+    module_name:
+      - GATConv
+      - GCNConv
+    input_drug_feature_dim:  78
+    output_drug_feature_dim: 128
+    num_labels: 1 # vary with dataset
+    layer_num: 2
+
+    gnn_layers:
+      -
+        intput: 78
+        output: 78
+        dropout: 0.0
+        feature_pre_dropout: 0
+        heads: 10
+      -
+        intput: 780
+        output: 780
+        dropout: 0.0
+        feature_pre_dropout: 0
+
+
+    linear_layers:
+      -
+        operate_name: linear
+        param:
+          - 1560
+          - 500
+      -
+        operate_name: relu
+      -
+        operate_name: dropout
+        param: 0.5
+      -
+        operate_name: linear
+        param:
+          - 500
+          - 128
+
+
+    graph_pooling: max_mean
+    dropout: 0.5
+
